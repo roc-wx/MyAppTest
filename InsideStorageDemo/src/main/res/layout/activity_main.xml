@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/share_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAllCaps="false"
+        android:text="SharePreference演示"
+        android:onClick="operate"
+        app:layout_constraintBottom_toTopOf="@id/external_btn"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/external_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="外部存储演示"
+        android:onClick="operate"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="5dp"/>
+
+    <Button
+        android:id="@+id/internal_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="内部存储演示"
+        android:onClick="operate"
+        app:layout_constraintTop_toBottomOf="@id/external_btn"
+        android:layout_margin="5dp"/>
+
+</android.support.constraint.ConstraintLayout>

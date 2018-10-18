@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.para_huang.imoocdemo.MainActivity"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <EditText
+        android:id="@+id/name_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="姓名："
+        />
+
+    <EditText
+        android:id="@+id/age_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="年龄："
+        android:numeric="integer"/>
+
+    <RadioGroup
+        android:id="@+id/gender_gp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="性别:"
+            android:layout_marginLeft="5dp"/>
+        <RadioButton
+            android:id="@+id/male"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="男"
+            android:checked="true"
+            android:layout_marginLeft="15dp"/>
+        <RadioButton
+            android:id="@+id/female"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="女"
+            android:layout_marginLeft="15dp"/>
+    </RadioGroup>
+    <EditText
+        android:id="@+id/id_edt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="编号"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/insert_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="添加"
+            android:onClick="operate"/>
+
+        <Button
+            android:id="@+id/select_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="查询"
+            android:onClick="operate"/>
+
+        <Button
+            android:id="@+id/delete_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="删除"
+            android:onClick="operate"/>
+        <Button
+            android:id="@+id/update_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="修改"
+            android:onClick="operate"/>
+    </LinearLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/stu_list"></ListView>
+</LinearLayout>
