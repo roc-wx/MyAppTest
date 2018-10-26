@@ -63,12 +63,11 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.getButton:
+                //在子线程中进行操作
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
                         requestDataByGet();
-
-
                     }
                 }).start();
                 break;
@@ -137,7 +136,7 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
             if(responseCode == HttpURLConnection.HTTP_OK){
                 InputStream inputStream = connection.getInputStream();
                 mResult = streamToString(inputStream);
-
+                //通过调用runOnUiThread来更新UI
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -145,11 +144,8 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
                         mTextView.setText(mResult);
                     }
                 });
-
-
             } else {
                 // TODO: error fail
-
                 Log.e(TAG, "run: error code:" +responseCode +", message:" + reponseMessage);
             }
 
@@ -173,7 +169,7 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
 
             connection.setDoOutput(true);
             connection.setDoInput(true);
-
+            //设置是否可缓存
             connection.setUseCaches(false);
             connection.connect(); // 发起连接
 
