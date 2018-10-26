@@ -1,5 +1,8 @@
 package com.examples.myapplication;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -56,6 +59,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         showText = findViewById(R.id.show_text);
     }
 
+    public boolean isOnline() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        Log.d(TAG, "networkInfo:  "+networkInfo);
+        return (networkInfo!=null && networkInfo.isConnected());
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -63,8 +73,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        JsonDataGet();
+                        if(isOnline()){
+                            JsonDataGet();
 //                        JsonDataPost();
+                        }else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this,"网络掉啦",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
                     }
                 }).start();
                 break;
@@ -72,7 +91,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        JsonDataAnalysis(jsonData);
+                        if(jsonData!=null){
+                            JsonDataAnalysis(jsonData);
+                        }else{
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(MainActivity.this,"请先获取数据",Toast.LENGTH_LONG).show();
+                                }
+                            });
+                        }
                     }
                 }).start();
                 break;
