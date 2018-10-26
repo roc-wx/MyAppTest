@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void JsonDataGet() {
         try {
             URL url = new URL(inputUrl.getText().toString());
-            HttpURLConnection urlConnection = (HttpURLConnection) url.getContent();
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setConnectTimeout(3 * 1000);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
