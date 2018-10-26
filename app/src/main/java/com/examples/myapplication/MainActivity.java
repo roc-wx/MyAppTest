@@ -7,13 +7,23 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private TextView showText;
     private String jsonData;
     private EditText inputUrl;
+    private JsonData jsonDataAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,14 +63,65 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        JsonDataGet();
+//                        JsonDataGet();
+                        JsonDataPost();
                     }
                 }).start();
                 break;
             case R.id.analysis_button:
-                JsonDataAnalysis(jsonData);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        JsonDataAnalysis(jsonData);
+                    }
+                }).start();
                 break;
         }
+    }
+
+    private void JsonDataPost() {
+        try {
+            URL url = new URL(inputUrl.getText().toString());
+            //打开链接
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setConnectTimeout(3 * 1000);
+            urlConnection.setDoInput(true);
+            urlConnection.setDoOutput(true);
+            //设置是否可缓存
+            urlConnection.setUseCaches(false);
+            urlConnection.setRequestMethod("POST");
+            urlConnection.connect();//发起连接
+            String data = "username=" + getEncodeValue("imooc") + "&number=" + getEncodeValue("150088886666");
+            OutputStream outputStream = urlConnection.getOutputStream();
+
+            outputStream.write(data.getBytes());
+            outputStream.flush();
+            outputStream.close();
+//            int responseCode = urlConnection.getResponseCode();
+            if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream stream = urlConnection.getInputStream();
+                jsonData = streamToString(stream);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showText.setText(jsonData);
+                    }
+                });
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getEncodeValue(String imooc) {
+        String encode = null;
+        try {
+            encode = URLEncoder.encode(imooc, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encode;
     }
 
     private void JsonDataGet() {
@@ -107,8 +169,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void JsonDataAnalysis(String jsonData) {
+    private void JsonDataAnalysis(String dataJson) {
+        //Toast.makeText(this,"aaaa",Toast.LENGTH_LONG).show();
+        try {
+            jsonDataAll = new JsonData();
+            List<DataArrays> dataArrayList = new ArrayList();
+            JSONObject jsonObject = new JSONObject(dataJson);   //    注意放入：new JSONObject(dataJson);
+            int status = jsonObject.getInt("status");
+            String msg = jsonObject.getString("msg");
+            jsonDataAll.setStatus(status);
+            jsonDataAll.setMsg(msg);
+            JSONArray jsonArray = jsonObject.getJSONArray("data");
+            if (jsonArray != null && jsonArray.length() > 0) {
+                for (int index = 0; index < jsonArray.length(); index++) {
+                    JSONObject jsonArrayObject = (JSONObject) jsonArray.get(index);
+                    int id = jsonArrayObject.getInt("id");
+                    int learner = jsonArrayObject.getInt("learner");
+                    String name = jsonArrayObject.getString("name");
+                    String smallPic = jsonArrayObject.getString("picSmall");
+                    String bigPic = jsonArrayObject.getString("picBig");
+                    String description = jsonArrayObject.getString("description");
 
+                    DataArrays dataArrays = new DataArrays();
+                    dataArrays.setId(id);
+                    dataArrays.setLearner(learner);
+                    dataArrays.setName(name);
+                    dataArrays.setPicSmall(smallPic);
+                    dataArrays.setPicBig(bigPic);
+                    dataArrays.setDescription(description);
+                    dataArrayList.add(dataArrays);
+                }
+                jsonDataAll.setData(dataArrayList);
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showText.setText(jsonDataAll.toString());
+                }
+            });
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
