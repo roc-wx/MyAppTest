@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MyApplication</string>
     <string name="title_activity_main2">Main2Activity</string>
+    <string name="url_json"><![CDATA[http://www.imooc.com/api/teacher?type=2&page=1]]></string>
 </resources>

@@ -3,14 +3,20 @@
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <compositeConfiguration>
-          <compositeBuild compositeDefinitionSource="SCRIPT" />
-        </compositeConfiguration>
         <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/AsyncTaskProject" />
+            <option value="$PROJECT_DIR$/CardViewDemo" />
+            <option value="$PROJECT_DIR$/ExpandableListViewDemo" />
+            <option value="$PROJECT_DIR$/GridViewDemo" />
+            <option value="$PROJECT_DIR$/HandlerProject" />
+            <option value="$PROJECT_DIR$/InsideStorageDemo" />
+            <option value="$PROJECT_DIR$/ListProject" />
+            <option value="$PROJECT_DIR$/NetWorkDemo" />
+            <option value="$PROJECT_DIR$/SQLiteDataBaseDemo" />
             <option value="$PROJECT_DIR$/app" />
           </set>
         </option>
