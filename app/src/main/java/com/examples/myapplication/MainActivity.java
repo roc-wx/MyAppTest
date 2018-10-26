@@ -63,8 +63,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-//                        JsonDataGet();
-                        JsonDataPost();
+                        JsonDataGet();
+//                        JsonDataPost();
                     }
                 }).start();
                 break;
@@ -127,6 +127,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void JsonDataGet() {
         try {
             URL url = new URL(inputUrl.getText().toString());
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setConnectTimeout(3 * 1000);
+            httpURLConnection.setRequestMethod("GET");
+            httpURLConnection.connect();
+
+            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream inputStream = httpURLConnection.getInputStream();
+                //将流转换为字符
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                byte[] bytes = new byte[1024];
+                int len;
+                while ((len = inputStream.read(bytes)) != -1) {
+                    byteArrayOutputStream.write(bytes, 0, len);
+                }
+                byteArrayOutputStream.flush();
+                byteArrayOutputStream.close();
+                inputStream.close();
+                jsonData = new String(byteArrayOutputStream.toByteArray());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showText.setText(jsonData);
+                    }
+                });
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+/*    private void JsonDataGet() {
+        try {
+            URL url = new URL(inputUrl.getText().toString());
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setConnectTimeout(3 * 1000);
             urlConnection.setRequestMethod("GET");
@@ -146,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private String streamToString(InputStream stream) {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -170,6 +204,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void JsonDataAnalysis(String dataJson) {
+        jsonDataAll = new JsonData();
+        List<DataArrays> dataArraysList = new ArrayList<>();
+        try {
+            JSONObject jsonObject = new JSONObject(dataJson);
+            int status = jsonObject.getInt("status");
+            String msg = jsonObject.getString("msg");
+            jsonDataAll.setMsg(msg);
+            jsonDataAll.setStatus(status);
+            JSONArray dataArrays = jsonObject.getJSONArray("data");
+            if (dataArrays != null && dataArrays.length() > 0) {
+                for (int i = 0; i < dataArrays.length(); i++) {
+                    JSONObject jsonArrayObject = (JSONObject) dataArrays.get(i);
+                    int id = jsonArrayObject.getInt("id");
+                    int learner = jsonArrayObject.getInt("learner");
+                    String name = jsonArrayObject.getString("name");
+                    String smallPic = jsonArrayObject.getString("picSmall");
+                    String bigPic = jsonArrayObject.getString("picBig");
+                    String description = jsonArrayObject.getString("description");
+                    DataArrays mdataArray = new DataArrays();
+                    mdataArray.setId(id);
+                    mdataArray.setLearner(learner);
+                    mdataArray.setName(name);
+                    mdataArray.setPicSmall(smallPic);
+                    mdataArray.setPicBig(bigPic);
+                    mdataArray.setDescription(description);
+                    dataArraysList.add(mdataArray);
+                }
+                jsonDataAll.setData(dataArraysList);
+            }
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    showText.setText(jsonDataAll.toString());
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    /*private void JsonDataAnalysis(String dataJson) {
         //Toast.makeText(this,"aaaa",Toast.LENGTH_LONG).show();
         try {
             jsonDataAll = new JsonData();
@@ -211,7 +285,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     /**
      * 将Unicode字符转换为UTF-8类型字符串
