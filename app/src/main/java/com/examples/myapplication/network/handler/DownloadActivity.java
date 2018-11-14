@@ -47,16 +47,16 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
     }
 
     private void initViewSetClick() {
-        progressBar_download = findViewById(R.id.download_progress_async);
-        imageView_download = findViewById(R.id.download_imageView_async);
-        button_download = findViewById(R.id.download_button_async);
+        progressBar_download = findViewById(R.id.download_progress);
+        imageView_download = findViewById(R.id.download_imageView);
+        button_download = findViewById(R.id.download_button);
         button_download.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.download_button_async:
+            case R.id.download_button:
                 Toast.makeText(this, "ok", Toast.LENGTH_LONG).show();
                 new Thread(new Runnable() {
                     @Override
@@ -101,7 +101,7 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
                 while ((length = inputStream.read(bytes)) != -1) {
                     outputStream.write(bytes, 0, length);
                     dowloadLength += length;
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                     Message message = Message.obtain();
                     message.what = DOWNLOAD_CODE_1;
                     message.arg1 = dowloadLength * 100 / contentLength;

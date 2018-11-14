@@ -20,7 +20,7 @@ import com.examples.myapplication.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListViewActivity extends AppCompatActivity {
+public class ListViewShowAppActivity extends AppCompatActivity {
 
     private ListView listView;
     private LayoutInflater layoutInflater;
@@ -29,7 +29,7 @@ public class ListViewActivity extends AppCompatActivity {
      * private LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
      *
      * java.lang.RuntimeException: Unable to instantiate activity ComponentInfo{
-     * com.examples.myapplication/com.examples.myapplication.network.listview.ListViewActivity}:
+     * com.examples.myapplication/com.examples.myapplication.network.listview.ListViewShowAppActivity}:
      * java.lang.IllegalStateException: System services not available to Activities before onCreate()
      * at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2720)
      */
@@ -50,7 +50,7 @@ public class ListViewActivity extends AppCompatActivity {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(ListViewActivity.this,"click",Toast.LENGTH_LONG).show();
+                Toast.makeText(ListViewShowAppActivity.this,"click",Toast.LENGTH_LONG).show();
             }
         });
         listView.addHeaderView(view);

@@ -1,6 +1,5 @@
 package com.examples.myapplication.network.asynctask;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -38,16 +37,16 @@ public class AsyncTaskActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_download_async_task);
+        setContentView(R.layout.activity_download);
         setTitle("DownloadAsyncTask");
         initView();
         setClick();
     }
 
     private void initView() {
-        downloadButton = findViewById(R.id.download_button_async);
-        progressBar = findViewById(R.id.download_progress_async);
-        imageView = findViewById(R.id.download_imageView_async);
+        downloadButton = findViewById(R.id.download_button);
+        progressBar = findViewById(R.id.download_progress);
+        imageView = findViewById(R.id.download_imageView);
     }
 
     private void setClick() {
@@ -57,7 +56,7 @@ public class AsyncTaskActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.download_button_async:
+            case R.id.download_button:
                 Toast.makeText(this, "ok", Toast.LENGTH_LONG).show();
                 DownloadAsyncTask downloadAsyncTask = new DownloadAsyncTask();
                 downloadAsyncTask.execute(IIMAGE_URL);
@@ -97,7 +96,7 @@ public class AsyncTaskActivity extends AppCompatActivity implements View.OnClick
                 while ((len = bufferedInputStream.read(bytes)) != -1) {
                     outputStream.write(bytes, 0, len);
                     downloadSize += len;
-                    Thread.sleep(500);
+                    Thread.sleep(100);
                     publishProgress(downloadSize * 100 / fileSize);
                 }
                 bitmap = BitmapFactory.decodeFile(mFilePath);
