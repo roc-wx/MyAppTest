@@ -1,4 +1,4 @@
-package com.examples.myapplication;
+package com.examples.myapplication.network;
 
 public class DataArrays {
     /**

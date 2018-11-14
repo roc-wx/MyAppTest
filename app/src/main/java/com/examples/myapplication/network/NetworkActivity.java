@@ -1,16 +1,18 @@
-package com.examples.myapplication;
+package com.examples.myapplication.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.examples.myapplication.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,13 +24,12 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class NetworkActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "roc-wx";
     private Button getButton;
@@ -42,7 +43,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //https://www.cnblogs.com/imqsl/p/6763133.html
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_network);
+        setTitle("NetWork");
         initView();
         setClick();
     }
@@ -80,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(MainActivity.this,"网络掉啦",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(NetworkActivity.this,"网络掉啦",Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(MainActivity.this,"请先获取数据",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(NetworkActivity.this,"请先获取数据",Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
