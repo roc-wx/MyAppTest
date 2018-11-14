@@ -1,4 +1,4 @@
-package com.examples.myapplication.network;
+package com.examples.myapplication.learn.network;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.examples.myapplication.R;
+import com.examples.myapplication.learn.model.DataArrays;
+import com.examples.myapplication.learn.model.JsonData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,6 +63,10 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
         showText = findViewById(R.id.show_text);
     }
 
+    /**
+     * 获取当前网络连接状态
+     * @return
+     */
     public boolean isOnline() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();

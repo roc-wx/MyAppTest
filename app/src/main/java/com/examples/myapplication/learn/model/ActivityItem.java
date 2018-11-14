@@ -1,4 +1,4 @@
-package com.examples.myapplication.network.model;
+package com.examples.myapplication.learn.model;
 
 /**
  * Function:

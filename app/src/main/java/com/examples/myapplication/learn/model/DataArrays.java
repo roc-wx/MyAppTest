@@ -1,4 +1,4 @@
-package com.examples.myapplication.network;
+package com.examples.myapplication.learn.model;
 
 public class DataArrays {
     /**

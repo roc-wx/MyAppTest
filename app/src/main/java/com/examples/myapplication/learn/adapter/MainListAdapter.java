@@ -1,4 +1,4 @@
-package com.examples.myapplication.network.adapter;
+package com.examples.myapplication.learn.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.examples.myapplication.R;
-import com.examples.myapplication.network.base.BindableAdapter;
-import com.examples.myapplication.network.model.ActivityItem;
+import com.examples.myapplication.learn.model.ActivityItem;
 
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class MainListAdapter extends BindableAdapter<ActivityItem> {
     protected View onNewItemView(LayoutInflater inflater, ViewGroup parent, int position) {
         View view = inflater.inflate(R.layout.item_main_list, null);
         ViewHolder holder = new ViewHolder();
-        holder.mTitle = (TextView) view.findViewById(R.id.title);
+        holder.mTitle = (TextView) view.findViewById(R.id.item_main_title);
         view.setTag(holder);
         return view;
     }

@@ -1,4 +1,4 @@
-package com.examples.myapplication.network.base;
+package com.examples.myapplication.learn.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
