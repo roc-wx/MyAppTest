@@ -2,4 +2,5 @@
     <string name="app_name">学习案例</string>
     <string name="url_json"><![CDATA[http://www.imooc.com/api/teacher?type=2&page=1]]></string>
     <string name="listview_button">listview加载应用</string>
+    <string name="xiaoming">小明</string>
 </resources>

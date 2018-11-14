@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".learn.listview.JsonDataActivity"></activity>
+        <activity android:name=".learn.listview.ChatMeassgeActivity"></activity>
+        <activity android:name=".learn.listview.JsonDataActivity" />
         <activity android:name=".learn.listview.AppListActivity" />
         <activity android:name=".learn.asynctask.AsyncTaskActivity" />
         <activity android:name=".learn.MainActivity">

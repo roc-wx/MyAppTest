@@ -13,6 +13,7 @@ import com.examples.myapplication.learn.adapter.MainListAdapter;
 import com.examples.myapplication.learn.asynctask.AsyncTaskActivity;
 import com.examples.myapplication.learn.handler.DownloadActivity;
 import com.examples.myapplication.learn.listview.AppListActivity;
+import com.examples.myapplication.learn.listview.ChatMeassgeActivity;
 import com.examples.myapplication.learn.listview.JsonDataActivity;
 import com.examples.myapplication.learn.model.ActivityItem;
 import com.examples.myapplication.learn.network.NetworkActivity;
@@ -37,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         activityItems.add(new ActivityItem("3. AsyncTask获取网络图片", AsyncTaskActivity.class));
         activityItems.add(new ActivityItem("4. ListView加载手机应用", AppListActivity.class));
         activityItems.add(new ActivityItem("4. ListView网络加载Json数据", JsonDataActivity.class));
+        activityItems.add(new ActivityItem("5. ListView网络显示聊天数据", ChatMeassgeActivity.class));
         mListView.setAdapter(new MainListAdapter(MainActivity.this, activityItems));
     }
 

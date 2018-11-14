@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.examples.myapplication.R;
 import com.examples.myapplication.learn.model.DataArrays;
@@ -76,7 +77,7 @@ public class JsonDataActivity extends AppCompatActivity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             JsonDataViewHolder jsonDataViewHolder;
             LayoutInflater inflater;
             if (convertView == null) {
@@ -89,6 +90,12 @@ public class JsonDataActivity extends AppCompatActivity {
                 jsonDataViewHolder = (JsonDataViewHolder) convertView.getTag();
             }
             jsonDataViewHolder.textView.setText(dataArraysListView.get(position).getName());
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context,dataArraysListView.get(position).getDescription(),Toast.LENGTH_LONG).show();
+                }
+            });
             return convertView;
         }
     }
