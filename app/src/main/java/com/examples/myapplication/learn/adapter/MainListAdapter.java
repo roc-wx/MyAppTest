@@ -30,7 +30,7 @@ public class MainListAdapter extends BindableAdapter<ActivityItem> {
 
     @Override
     protected View onNewItemView(LayoutInflater inflater, ViewGroup parent, int position) {
-        View view = inflater.inflate(R.layout.item_main_list, null);
+        View view = inflater.inflate(R.layout.item_listview_textview, null);
         ViewHolder holder = new ViewHolder();
         holder.mTitle = (TextView) view.findViewById(R.id.item_main_title);
         view.setTag(holder);

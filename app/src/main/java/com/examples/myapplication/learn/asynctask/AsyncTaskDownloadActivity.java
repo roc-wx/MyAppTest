@@ -24,7 +24,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class AsyncTaskActivity extends AppCompatActivity implements View.OnClickListener {
+public class AsyncTaskDownloadActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String IIMAGE_URL = "https://img2.mukewang.com/5adfee7f0001cbb906000338-240-135.jpg";
     public static final int PROGRESS = 0;

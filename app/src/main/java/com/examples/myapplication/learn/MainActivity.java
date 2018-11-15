@@ -10,7 +10,8 @@ import android.widget.ListView;
 
 import com.examples.myapplication.R;
 import com.examples.myapplication.learn.adapter.MainListAdapter;
-import com.examples.myapplication.learn.asynctask.AsyncTaskActivity;
+import com.examples.myapplication.learn.asynctask.AsyncTaskDownloadActivity;
+import com.examples.myapplication.learn.gridview.AppGridViewActivity;
 import com.examples.myapplication.learn.handler.DownloadActivity;
 import com.examples.myapplication.learn.listview.AppListActivity;
 import com.examples.myapplication.learn.listview.ChatMeassgeActivity;
@@ -35,10 +36,11 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<ActivityItem> activityItems = new ArrayList<>();
         activityItems.add(new ActivityItem("1. handler实现网络图片加载", DownloadActivity.class));
         activityItems.add(new ActivityItem("2. Json数据获取与解析", NetworkActivity.class));
-        activityItems.add(new ActivityItem("3. AsyncTask获取网络图片", AsyncTaskActivity.class));
+        activityItems.add(new ActivityItem("3. AsyncTask获取网络图片", AsyncTaskDownloadActivity.class));
         activityItems.add(new ActivityItem("4. ListView加载手机应用", AppListActivity.class));
         activityItems.add(new ActivityItem("4. ListView网络加载Json数据", JsonDataActivity.class));
         activityItems.add(new ActivityItem("5. ListView网络显示聊天数据", ChatMeassgeActivity.class));
+        activityItems.add(new ActivityItem("6. GridView加载手机应用", AppGridViewActivity.class));
         mListView.setAdapter(new MainListAdapter(MainActivity.this, activityItems));
     }
 
