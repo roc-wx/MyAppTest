@@ -9,16 +9,12 @@ import com.examples.myapplication.R;
 import com.examples.myapplication.learn.adapter.SetJsonDataAdapter;
 import com.examples.myapplication.learn.model.DataArrays;
 import com.examples.myapplication.learn.model.JsonData;
+import com.examples.myapplication.learn.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +22,7 @@ public class JsonDataActivity extends AppCompatActivity {
 
     public static final String JSON_URL = "http://www.imooc.com/api/teacher?type=2&page=1";
     private ListView listView;
-    private String jsonData;
-    private JsonData jsonDataAll;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +41,12 @@ public class JsonDataActivity extends AppCompatActivity {
     /**
      * 异步下载
      */
-    private class GetJsonDataAsyncTask extends AsyncTask<String, Void, String> {
+    public class GetJsonDataAsyncTask extends AsyncTask<String, Void, String> {
+         JsonData jsonDataAll;
 
         @Override
         protected String doInBackground(String... strings) {
-            return getJsonData(strings[0]);
+            return Util.getJsonDataString(strings[0]);
         }
 
         @Override
@@ -94,40 +90,5 @@ public class JsonDataActivity extends AppCompatActivity {
         }
     }
 
-    /**
-     * 获取数据
-     *
-     * @param jsonUrl
-     * @return
-     */
-    private String getJsonData(String jsonUrl) {
-
-        try {
-            URL url = new URL(jsonUrl);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            httpURLConnection.setConnectTimeout(5 * 1000);
-            httpURLConnection.setRequestMethod("GET");
-            httpURLConnection.connect();
-
-            if (httpURLConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                InputStream inputStream = httpURLConnection.getInputStream();
-                //将流转换为字符
-                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                byte[] bytes = new byte[1024];
-                int len;
-                while ((len = inputStream.read(bytes)) != -1) {
-                    byteArrayOutputStream.write(bytes, 0, len);
-                }
-                byteArrayOutputStream.flush();
-                byteArrayOutputStream.close();
-                inputStream.close();
-                jsonData = new String(byteArrayOutputStream.toByteArray());
-                return jsonData;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return jsonData;
-    }
 
 }

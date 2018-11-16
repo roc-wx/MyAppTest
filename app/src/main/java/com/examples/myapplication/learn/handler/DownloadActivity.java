@@ -27,11 +27,8 @@ import java.net.URL;
 public class DownloadActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final int DOWNLOAD_CODE_1 = 1;
-
-    private static final int DOWNLOAD_CODE_2 = 2;
-    private final String appUrl = "https://img2.mukewang.com/5adfee7f0001cbb906000338-240-135.jpg";
+    public static final String TAG = "roc-wx";
     private ProgressBar progressBar_download;
-    private Button button_download;
     private ImageView imageView_download;
     private MyDownloadHandler myDownloadHandler;
 
@@ -49,7 +46,7 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
     private void initViewSetClick() {
         progressBar_download = findViewById(R.id.download_progress);
         imageView_download = findViewById(R.id.download_imageView);
-        button_download = findViewById(R.id.download_button);
+        Button button_download = findViewById(R.id.download_button);
         button_download.setOnClickListener(this);
     }
 
@@ -61,22 +58,21 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        downloadImage(appUrl);
+                        downloadImage();
                     }
                 }).start();
                 break;
         }
     }
 
-    private void downloadImage(String appUrl) {
-        Log.i("roc_wxsss", "ssssssaaa");
+    private void downloadImage() {
+        Log.i(TAG, "-----downloadImage----");
         try {
-            URL url = new URL(appUrl);
+            URL url = new URL("https://img2.mukewang.com/5adfee7f0001cbb906000338-240-135.jpg");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             httpURLConnection.setRequestMethod("GET");
             httpURLConnection.setConnectTimeout(100 * 1000);
             int code = httpURLConnection.getResponseCode();
-            Log.i("roc_wxsss", "code===== " + code);
             if (code == HttpURLConnection.HTTP_OK) {
                 Log.i("roc_wxsss", "ssssssbbbb");
                 int contentLength = httpURLConnection.getContentLength();
@@ -86,14 +82,20 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
                 String downloadFolderName = Environment.getExternalStorageDirectory() + File.separator + "immoc" + File.separator;
                 File file = new File(downloadFolderName);
                 if (!file.exists()) {
-                    file.mkdir();
+                    final boolean mkdir = file.mkdir();
+                    if (mkdir) {
+                        Log.i(TAG, "downloadImage: ");
+                    }
                 }
                 String fileName = downloadFolderName + "imooc.jpg";
 
                 File apkFile = new File(fileName);
 
                 if (apkFile.exists()) {
-                    apkFile.delete();
+                    final boolean delete = apkFile.delete();
+                    if (delete) {
+                        Log.i("roc-wx", "delete: success");
+                    }
                 }
                 InputStream inputStream = httpURLConnection.getInputStream();
                 OutputStream outputStream = new FileOutputStream(fileName);
@@ -120,11 +122,11 @@ public class DownloadActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-//static
+    //static
     public static class MyDownloadHandler extends Handler {
         WeakReference<DownloadActivity> mWeakReference;
 
-        public MyDownloadHandler(DownloadActivity downloadActivity) {
+        MyDownloadHandler(DownloadActivity downloadActivity) {
             mWeakReference = new WeakReference<>(downloadActivity);
         }
 

@@ -24,7 +24,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     public static final int REQUEST_CODE = 11112;
-    private ListView mListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_list_view);
         requestPermission();
 
-        mListView = findViewById(R.id.app_list_view);
+        ListView mListView = findViewById(R.id.app_list_view);
         ArrayList<ActivityItem> activityItems = new ArrayList<>();
         activityItems.add(new ActivityItem("1. handler实现网络图片加载", DownloadActivity.class));
         activityItems.add(new ActivityItem("2. Json数据获取与解析", NetworkActivity.class));

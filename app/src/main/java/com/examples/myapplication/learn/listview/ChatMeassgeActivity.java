@@ -13,8 +13,7 @@ import java.util.List;
 
 public class ChatMeassgeActivity extends AppCompatActivity {
 
-    private ListView listView;
-    private List<ChatMessage> chatMessageList;
+    protected List<ChatMessage> chatMessageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,7 @@ public class ChatMeassgeActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        listView = findViewById(R.id.app_list_view);
+        ListView listView = findViewById(R.id.app_list_view);
         listView.setAdapter(new ChatMessageAdapter(this, initData()));
     }
 

@@ -31,7 +31,6 @@ public class AsyncTaskDownloadActivity extends AppCompatActivity implements View
     private Button downloadButton;
     private ProgressBar progressBar;
     private ImageView imageView;
-    private Bitmap bitmap;
     private static final String TAG = "roc_wxa";
 
     @Override
@@ -99,7 +98,7 @@ public class AsyncTaskDownloadActivity extends AppCompatActivity implements View
                     Thread.sleep(100);
                     publishProgress(downloadSize * 100 / fileSize);
                 }
-                bitmap = BitmapFactory.decodeFile(mFilePath);
+                Bitmap bitmap = BitmapFactory.decodeFile(mFilePath);
                 Log.i(TAG, "doInBackground: -----b" + downloadSize * 100 / fileSize);
                 inputStream.close();
                 outputStream.close();

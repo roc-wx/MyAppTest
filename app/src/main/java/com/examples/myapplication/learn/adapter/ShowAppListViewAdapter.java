@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,14 +12,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.examples.myapplication.R;
-import com.examples.myapplication.learn.listview.AppListActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ShowAppListViewAdapter extends BaseAdapter {
     private Context mContext;
-    private List<ResolveInfo> resolveInfos = new ArrayList<>();
+    private List<ResolveInfo> resolveInfos;
 
     public ShowAppListViewAdapter(Context mContext, List<ResolveInfo> resolveInfos) {
         this.mContext = mContext;
@@ -44,12 +41,10 @@ public class ShowAppListViewAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        AppListViewHolder viewHolder;
-
+        AppListViewHolder viewHolder = new AppListViewHolder();
         if (convertView == null) {
-            viewHolder = new AppListViewHolder();
-            LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = layoutInflater.inflate(R.layout.item_listview_app, null);
+            // LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = View.inflate(mContext, R.layout.item_listview_app, null);
             //获取控件
             viewHolder.imageView = convertView.findViewById(R.id.app_imageView);
             viewHolder.textView = convertView.findViewById(R.id.app_textView);
@@ -69,7 +64,7 @@ public class ShowAppListViewAdapter extends BaseAdapter {
                 String packageName = resolveInfo.activityInfo.packageName;
                 String className = resolveInfo.activityInfo.name;
                 //跳转
-                Log.d("roc-wx","pan:  "+packageName+"  c:"+className);
+                Log.d("roc-wx", "pan:  " + packageName + "  c:" + className);
                 ComponentName componentName = new ComponentName(packageName, className);
                 mContext.startActivity(new Intent().setComponent(componentName));
             }
@@ -77,7 +72,7 @@ public class ShowAppListViewAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public class AppListViewHolder {
+    private class AppListViewHolder {
         private ImageView imageView;
         private TextView textView;
     }

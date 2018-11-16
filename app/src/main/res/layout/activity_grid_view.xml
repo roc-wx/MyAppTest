@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".learn.gridview.AppGridViewActivity">
 
-    <GridView
+    <com.examples.myapplication.learn.view.AppGridView
         android:id="@+id/app_grid_view"
         android:layout_width="0dp"
         android:layout_height="0dp"

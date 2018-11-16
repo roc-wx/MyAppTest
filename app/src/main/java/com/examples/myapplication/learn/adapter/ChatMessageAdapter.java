@@ -14,12 +14,13 @@ import com.examples.myapplication.learn.model.ChatMessage;
 import java.util.List;
 
 public class ChatMessageAdapter extends BaseAdapter {
-    Context context;
-    List<ChatMessage> messageList;
-    LayoutInflater inflater;
+    protected Context context;
+    private List<ChatMessage> messageList;
+    private LayoutInflater inflater;
 
     public ChatMessageAdapter(Context context, List<ChatMessage> messageList) {
         inflater = LayoutInflater.from(context);
+        this.context = context;
         this.messageList = messageList;
     }
 
@@ -66,16 +67,16 @@ public class ChatMessageAdapter extends BaseAdapter {
         boolean isComMsg = entity.getMsgType();
         if (convertView == null) {
             if (getItemViewType(position) == IMessageViewType.COM_MESSAGE) {
-                convertView = inflater.inflate(R.layout.item_listview_chatting_msg_text_left, null);
+                convertView = inflater.inflate(R.layout.item_listview_chatting_msg_text_left, parent, false);
             } else {
-                convertView = inflater.inflate(R.layout.item_listview_chatting_msg_text_right, null);
+                convertView = inflater.inflate(R.layout.item_listview_chatting_msg_text_right, parent, false);
             }
             viewHolder = new ChatMessageViewHolder();
-            viewHolder.mSendTime = (TextView) convertView.findViewById(R.id.tv_send_time);
-            viewHolder.mUserName = (TextView) convertView.findViewById(R.id.tv_username);
-            viewHolder.mContent = (TextView) convertView.findViewById(R.id.tv_chat_content);
-            viewHolder.mTime = (TextView) convertView.findViewById(R.id.tv_time);
-            viewHolder.mUserAvatar = (ImageView) convertView.findViewById(R.id.iv_user_head);
+            viewHolder.mSendTime = convertView.findViewById(R.id.tv_send_time);
+            viewHolder.mUserName = convertView.findViewById(R.id.tv_username);
+            viewHolder.mContent = convertView.findViewById(R.id.tv_chat_content);
+            viewHolder.mTime = convertView.findViewById(R.id.tv_time);
+            viewHolder.mUserAvatar = convertView.findViewById(R.id.iv_user_head);
             viewHolder.mIsComMessage = isComMsg;
             convertView.setTag(viewHolder);
         } else {
@@ -96,12 +97,12 @@ public class ChatMessageAdapter extends BaseAdapter {
         return convertView;
     }
 
-    static class ChatMessageViewHolder {
-        public TextView mSendTime;
-        public TextView mUserName;
-        public TextView mContent;
-        public TextView mTime;
-        public ImageView mUserAvatar;
-        public boolean mIsComMessage = true;
+    private class ChatMessageViewHolder {
+        private TextView mSendTime;
+        private TextView mUserName;
+        private TextView mContent;
+        private TextView mTime;
+        private ImageView mUserAvatar;
+        boolean mIsComMessage = true;
     }
 }

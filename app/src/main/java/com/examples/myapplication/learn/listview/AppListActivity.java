@@ -1,6 +1,6 @@
 package com.examples.myapplication.learn.listview;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,9 +16,6 @@ import com.examples.myapplication.learn.util.Util;
 import java.util.List;
 
 public class AppListActivity extends AppCompatActivity {
-
-    private ListView listView;
-    private LayoutInflater layoutInflater;
 
     /**
      * 不可以在这里获取
@@ -40,9 +37,10 @@ public class AppListActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        listView = findViewById(R.id.app_list_view);
-        layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.item_listview_header_image, null);
+        ListView listView = findViewById(R.id.app_list_view);
+//        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        @SuppressLint("InflateParams") View view = layoutInflater.inflate(R.layout.item_listview_header_image, null);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,7 +55,7 @@ public class AppListActivity extends AppCompatActivity {
     /**
      * 获取手机应用
      *
-     * @return
+     * @return List<ResolveInfo>
      */
     public List<ResolveInfo> getResolveInfo() {
         return Util.getResolveInfoList(AppListActivity.this);

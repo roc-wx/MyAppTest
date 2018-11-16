@@ -1,7 +1,6 @@
 package com.examples.myapplication.learn.adapter;
 
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -9,10 +8,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.examples.myapplication.R;
-import com.examples.myapplication.learn.listview.JsonDataActivity;
 import com.examples.myapplication.learn.model.DataArrays;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,7 +17,7 @@ import java.util.List;
  */
 public class SetJsonDataAdapter extends BaseAdapter {
     protected Context context;
-    protected List<DataArrays> dataArraysListView = new ArrayList<>();
+    private List<DataArrays> dataArraysListView;
 
     public SetJsonDataAdapter(Context context, List<DataArrays> dataArraysListView) {
         this.context = context;
@@ -45,11 +42,11 @@ public class SetJsonDataAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         JsonDataViewHolder jsonDataViewHolder;
-        LayoutInflater inflater;
+//        LayoutInflater inflater;
         if (convertView == null) {
             jsonDataViewHolder = new JsonDataViewHolder();
-            inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-            convertView = inflater.inflate(R.layout.item_listview_textview, null);
+//            inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            convertView = View.inflate(context, R.layout.item_listview_textview, null);
             jsonDataViewHolder.textView = convertView.findViewById(R.id.item_main_title);
             convertView.setTag(jsonDataViewHolder);
         } else {
@@ -59,7 +56,7 @@ public class SetJsonDataAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context,dataArraysListView.get(position).getDescription(),Toast.LENGTH_LONG).show();
+                Toast.makeText(context, dataArraysListView.get(position).getDescription(), Toast.LENGTH_LONG).show();
             }
         });
         return convertView;

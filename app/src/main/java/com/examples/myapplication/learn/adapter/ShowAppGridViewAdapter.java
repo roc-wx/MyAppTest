@@ -1,8 +1,6 @@
 package com.examples.myapplication.learn.adapter;
 
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,14 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.examples.myapplication.R;
-import com.examples.myapplication.learn.gridview.AppGridViewActivity;
 import com.examples.myapplication.learn.model.AppInfo;
 
 import java.util.List;
 
 public class ShowAppGridViewAdapter extends BaseAdapter {
-    Context context;
-    List<AppInfo> appInfoList;
+    protected Context context;
+    private List<AppInfo> appInfoList;
+
+    public ShowAppGridViewAdapter() {
+
+    }
 
     public ShowAppGridViewAdapter(Context context, List<AppInfo> appInfoList) {
         this.context = context;

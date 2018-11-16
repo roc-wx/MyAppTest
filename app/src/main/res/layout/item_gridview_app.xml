@@ -20,7 +20,7 @@
     <TextView
         android:id="@+id/item_gridView_app_textView"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="20dp"
         android:layout_marginTop="8dp"
         android:text="TextView"
         android:gravity="center"
