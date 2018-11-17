@@ -8,7 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.examples.myapplication.R;
-import com.examples.myapplication.learn.model.DataArrays;
+import com.examples.myapplication.learn.model.JsonData;
 
 import java.util.List;
 
@@ -17,9 +17,9 @@ import java.util.List;
  */
 public class SetJsonDataAdapter extends BaseAdapter {
     protected Context context;
-    private List<DataArrays> dataArraysListView;
+    private List<JsonData.DataArrays> dataArraysListView;
 
-    public SetJsonDataAdapter(Context context, List<DataArrays> dataArraysListView) {
+    public SetJsonDataAdapter(Context context, List<JsonData.DataArrays> dataArraysListView) {
         this.context = context;
         this.dataArraysListView = dataArraysListView;
     }

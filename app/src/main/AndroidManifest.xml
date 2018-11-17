@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".learn.gridview.AppGridViewActivity"></activity>
+        <activity android:name=".learn.cardview.CardViewActivity"></activity>
+        <activity android:name=".learn.gridview.AppGridViewActivity" />
+        <activity android:name=".learn.gridview.NetWorkImageGridViewActivity" />
         <activity android:name=".learn.listview.ChatMeassgeActivity" />
         <activity android:name=".learn.listview.JsonDataActivity" />
         <activity android:name=".learn.listview.AppListActivity" />

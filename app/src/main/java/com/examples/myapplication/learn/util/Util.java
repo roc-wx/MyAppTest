@@ -6,6 +6,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.examples.myapplication.learn.model.AppInfo;
@@ -13,14 +17,18 @@ import com.examples.myapplication.learn.model.AppInfo;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
 public class Util {
+
+    private static final String TAG = "roc-wx";
 
     /**
      * 获取手机当前应用列表方法一（推荐使用）
@@ -56,6 +64,8 @@ public class Util {
             appInfo.setAppName(packageInfo.applicationInfo.loadLabel(pm) + "");
             //类名----》此处无法正确获取应用类名*********
             //appInfo.setClassName(packageInfo.applicationInfo.name);//*****无法正确获取应用类名
+            //appInfo.setClassName(packageInfo.applicationInfo.className);//*****无法正确获取应用类名
+            //Log.i(TAG, "APK ClassName: " + appInfo.getClassName());
             //包名
             appInfo.setPackageName(packageInfo.applicationInfo.packageName);
             //版本名
@@ -66,18 +76,18 @@ public class Util {
             SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             long appDate1 = packageInfo.firstInstallTime;
             String appDate = String.valueOf(dateFormat.format(appDate1));
-            Log.i("TAG", "APK第一次安装的时间: " + appDate);
+//            Log.i(TAG, "APK第一次安装的时间: " + appDate);
             appInfo.setAppDate(appDate);
             //获取APK文件的路径
             String publicSourceDir = packageInfo.applicationInfo.publicSourceDir;
             appInfo.setPackagePath(publicSourceDir);
-            Log.i("TAG", "APK文件的路径: " + publicSourceDir);
+            Log.i(TAG, "APK文件的路径: " + publicSourceDir);
             /*
              * 判断(applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM)的值，
              * 该值大于0时，表示获取的应用为系统预装的应用，反之则为手动安装的应用。
              * >=0 全部显示
              */
-            if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) >= 0) {
+            if ((packageInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) == 0) {
                 //将获取到的应用信息存入集合中
                 appInfoList.add(appInfo);
             }
@@ -118,5 +128,116 @@ public class Util {
             e.printStackTrace();
         }
         return jsonDataString;
+    }
+
+    /**
+     * 根据提供的url获取网络图片
+     *
+     * @return Bitmap
+     */
+    public static Bitmap getImageFromNetWork(String imageUrl) {
+        try {
+            URL url = new URL(imageUrl);
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setDoInput(true);
+            urlConnection.setConnectTimeout(10 * 1000);
+            urlConnection.connect();
+            InputStream inputStream = urlConnection.getInputStream();
+            Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+            inputStream.close();
+            return bitmap;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
+
+    /**
+     * Stream转换String
+     *
+     * @return String
+     */
+    public static String streamToString(InputStream stream) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        byte[] bytes = new byte[1024];
+        int len;
+        try {
+            while ((len = stream.read(bytes)) != -1) {
+                outputStream.write(bytes, 0, len);
+            }
+            outputStream.flush();
+            outputStream.close();
+            stream.close();
+            byte[] byteArrays = outputStream.toByteArray();
+            return new String(byteArrays);
+
+        } catch (IOException ex) {
+            Log.e(TAG, ex.toString());
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
+     * 将Unicode字符转换为UTF-8类型字符串
+     *
+     * @return String
+     */
+    public static String unicodeToUTF8(String unicodeStr) {
+        if (unicodeStr == null) {
+            return null;
+        }
+        StringBuilder retBuf = new StringBuilder();
+        int maxLoop = unicodeStr.length();
+        for (int i = 0; i < maxLoop; i++) {
+            if (unicodeStr.charAt(i) == '\\') {
+                if ((i < maxLoop - 5)
+                        && ((unicodeStr.charAt(i + 1) == 'u') || (unicodeStr
+                        .charAt(i + 1) == 'U')))
+                    try {
+                        retBuf.append((char) Integer.parseInt(unicodeStr.substring(i + 2, i + 6), 16));
+                        i += 5;
+                    } catch (NumberFormatException localNumberFormatException) {
+                        retBuf.append(unicodeStr.charAt(i));
+                    }
+                else {
+                    retBuf.append(unicodeStr.charAt(i));
+                }
+            } else {
+                retBuf.append(unicodeStr.charAt(i));
+            }
+        }
+        return retBuf.toString();
+    }
+
+    /**
+     * 将字符串编码为UTF-8
+     *
+     * @return String
+     */
+    public static String getStringEncodeToUTF8(String imooc) {
+        String encode = null;
+        try {
+            encode = URLEncoder.encode(imooc, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return encode;
+    }
+
+    /**
+     * 获取当前网络连接状态
+     *
+     * @return boolean
+     */
+    public static boolean isOnline(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
+        Log.d(TAG, "networkInfo:  " + networkInfo);
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }

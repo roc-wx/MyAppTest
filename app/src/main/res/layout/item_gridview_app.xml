@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="20dp"
         android:layout_marginTop="8dp"
-        android:text="TextView"
+        android:text="内容预览"
         android:gravity="center"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="@+id/item_gridView_app_imageView"

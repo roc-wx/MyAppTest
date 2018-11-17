@@ -7,7 +7,6 @@ import android.widget.ListView;
 
 import com.examples.myapplication.R;
 import com.examples.myapplication.learn.adapter.SetJsonDataAdapter;
-import com.examples.myapplication.learn.model.DataArrays;
 import com.examples.myapplication.learn.model.JsonData;
 import com.examples.myapplication.learn.util.Util;
 
@@ -53,7 +52,7 @@ public class JsonDataActivity extends AppCompatActivity {
         protected void onPostExecute(String dataJson) {
             super.onPostExecute(dataJson);
             jsonDataAll = new JsonData();
-            List<DataArrays> dataArraysList = new ArrayList<>();
+            List<JsonData.DataArrays> dataArraysList = new ArrayList<>();
             try {
                 //解析json数据
                 JSONObject jsonObject = new JSONObject(dataJson);
@@ -71,7 +70,7 @@ public class JsonDataActivity extends AppCompatActivity {
                         String smallPic = jsonArrayObject.getString("picSmall");
                         String bigPic = jsonArrayObject.getString("picBig");
                         String description = jsonArrayObject.getString("description");
-                        DataArrays mdataArray = new DataArrays();
+                        JsonData.DataArrays mdataArray = new JsonData.DataArrays();
                         mdataArray.setId(id);
                         mdataArray.setLearner(learner);
                         mdataArray.setName(name);

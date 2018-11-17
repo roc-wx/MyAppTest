@@ -58,7 +58,7 @@ public class ShowAppGridViewAdapter extends BaseAdapter {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d("roc-wx", "pan:  " + appInfo.getPackageName());
+                Log.d("roc-wx", "pnG:  " + appInfo.getPackageName() + "cnG：" + appInfo.getClassName());
                 //在无法获取类名的情况下，仅使用包名进行跳转（不可用于系统服务的跳转）
                 context.startActivity(context.getPackageManager().getLaunchIntentForPackage(appInfo.getPackageName()));
             }

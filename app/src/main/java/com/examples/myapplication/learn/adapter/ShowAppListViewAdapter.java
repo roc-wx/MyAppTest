@@ -64,7 +64,7 @@ public class ShowAppListViewAdapter extends BaseAdapter {
                 String packageName = resolveInfo.activityInfo.packageName;
                 String className = resolveInfo.activityInfo.name;
                 //跳转
-                Log.d("roc-wx", "pan:  " + packageName + "  c:" + className);
+                Log.d("roc-wx", "pn:  " + packageName + "  cn:" + className);
                 ComponentName componentName = new ComponentName(packageName, className);
                 mContext.startActivity(new Intent().setComponent(componentName));
             }

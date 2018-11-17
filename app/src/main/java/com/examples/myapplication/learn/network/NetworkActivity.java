@@ -1,11 +1,7 @@
 package com.examples.myapplication.learn.network;
 
-import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,8 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.examples.myapplication.R;
-import com.examples.myapplication.learn.model.DataArrays;
 import com.examples.myapplication.learn.model.JsonData;
+import com.examples.myapplication.learn.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,17 +19,13 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 public class NetworkActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private static final String TAG = "roc-wx";
     private Button getButton;
     private Button analysisButton;
     private TextView showText;
@@ -63,16 +55,6 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
         showText = findViewById(R.id.show_text);
     }
 
-    /**
-     * 获取当前网络连接状态
-     * @return
-     */
-    public boolean isOnline() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        Log.d(TAG, "networkInfo:  "+networkInfo);
-        return (networkInfo!=null && networkInfo.isConnected());
-    }
 
     @Override
     public void onClick(View v) {
@@ -81,14 +63,14 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if(isOnline()){
+                        if (Util.isOnline(NetworkActivity.this)) {
                             JsonDataGet();
 //                        JsonDataPost();
-                        }else{
+                        } else {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(NetworkActivity.this,"网络掉啦",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(NetworkActivity.this, "网络掉啦", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -99,13 +81,13 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
                 new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        if(jsonData!=null){
+                        if (jsonData != null) {
                             JsonDataAnalysis(jsonData);
-                        }else{
+                        } else {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    Toast.makeText(NetworkActivity.this,"请先获取数据",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(NetworkActivity.this, "请先获取数据", Toast.LENGTH_LONG).show();
                                 }
                             });
                         }
@@ -115,7 +97,7 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void JsonDataPost() {
+/*    private void JsonDataPost() {
         try {
             URL url = new URL(inputUrl.getText().toString());
             //打开链接
@@ -127,7 +109,7 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
             urlConnection.setUseCaches(false);
             urlConnection.setRequestMethod("POST");
             urlConnection.connect();//发起连接
-            String data = "username=" + getEncodeValue("imooc") + "&number=" + getEncodeValue("150088886666");
+            String data = "username=" + Util.getStringEncodeToUTF8("imooc") + "&number=" + Util.getStringEncodeToUTF8("150088886666");
             OutputStream outputStream = urlConnection.getOutputStream();
 
             outputStream.write(data.getBytes());
@@ -136,7 +118,7 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
 //            int responseCode = urlConnection.getResponseCode();
             if (urlConnection.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 InputStream stream = urlConnection.getInputStream();
-                jsonData = streamToString(stream);
+                jsonData = Util.streamToString(stream);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -148,17 +130,8 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
-    private String getEncodeValue(String imooc) {
-        String encode = null;
-        try {
-            encode = URLEncoder.encode(imooc, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return encode;
-    }
 
     private void JsonDataGet() {
         try {
@@ -218,30 +191,9 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
         }
     }*/
 
-    private String streamToString(InputStream stream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        byte[] bytes = new byte[1024];
-        int len;
-        try {
-            while ((len = stream.read(bytes)) != -1) {
-                outputStream.write(bytes, 0, len);
-            }
-            outputStream.flush();
-            outputStream.close();
-            stream.close();
-            byte[] byteArrays = outputStream.toByteArray();
-            return new String(byteArrays);
-
-        } catch (IOException ex) {
-            Log.e(TAG, ex.toString());
-            ex.printStackTrace();
-            return null;
-        }
-    }
-
     private void JsonDataAnalysis(String dataJson) {
         jsonDataAll = new JsonData();
-        List<DataArrays> dataArraysList = new ArrayList<>();
+        List<JsonData.DataArrays> dataArraysList = new ArrayList<>();
         try {
             JSONObject jsonObject = new JSONObject(dataJson);
             int status = jsonObject.getInt("status");
@@ -258,7 +210,7 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
                     String smallPic = jsonArrayObject.getString("picSmall");
                     String bigPic = jsonArrayObject.getString("picBig");
                     String description = jsonArrayObject.getString("description");
-                    DataArrays mdataArray = new DataArrays();
+                    JsonData.DataArrays mdataArray = new JsonData.DataArrays();
                     mdataArray.setId(id);
                     mdataArray.setLearner(learner);
                     mdataArray.setName(name);
@@ -323,33 +275,4 @@ public class NetworkActivity extends AppCompatActivity implements View.OnClickLi
         }
     }*/
 
-    /**
-     * 将Unicode字符转换为UTF-8类型字符串
-     */
-    public static String decode(String unicodeStr) {
-        if (unicodeStr == null) {
-            return null;
-        }
-        StringBuilder retBuf = new StringBuilder();
-        int maxLoop = unicodeStr.length();
-        for (int i = 0; i < maxLoop; i++) {
-            if (unicodeStr.charAt(i) == '\\') {
-                if ((i < maxLoop - 5)
-                        && ((unicodeStr.charAt(i + 1) == 'u') || (unicodeStr
-                        .charAt(i + 1) == 'U')))
-                    try {
-                        retBuf.append((char) Integer.parseInt(unicodeStr.substring(i + 2, i + 6), 16));
-                        i += 5;
-                    } catch (NumberFormatException localNumberFormatException) {
-                        retBuf.append(unicodeStr.charAt(i));
-                    }
-                else {
-                    retBuf.append(unicodeStr.charAt(i));
-                }
-            } else {
-                retBuf.append(unicodeStr.charAt(i));
-            }
-        }
-        return retBuf.toString();
-    }
 }
