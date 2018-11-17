@@ -1,7 +1,6 @@
 package com.examples.myapplication.learn.model;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import java.util.List;
 
@@ -54,10 +53,10 @@ public class GroupPurchaseJsonData {
 
         private int id;
         private String name;
-        private String imgUrl;
-        private Bitmap img;
+        private String img;
+        private Bitmap imgDownload;
         private int count;
-        private int price;
+        private String price;
         private String description;
         private String action;
 
@@ -77,20 +76,20 @@ public class GroupPurchaseJsonData {
             this.name = name;
         }
 
-        public String getImgUrl() {
-            return imgUrl;
-        }
-
-        public void setImgUrl(String imgUrl) {
-            this.imgUrl = imgUrl;
-        }
-
-        public Bitmap getImg() {
+        public String getImg() {
             return img;
         }
 
-        public void setImg(Bitmap img) {
+        public void setImgUrl(String img) {
             this.img = img;
+        }
+
+        public Bitmap getImgDownload() {
+            return imgDownload;
+        }
+
+        public void setDowloadImg(Bitmap downloadImg) {
+            this.imgDownload = downloadImg;
         }
 
         public int getCount() {
@@ -101,11 +100,11 @@ public class GroupPurchaseJsonData {
             this.count = count;
         }
 
-        public int getPrice() {
+        public String getPrice() {
             return price;
         }
 
-        public void setPrice(int price) {
+        public void setPrice(String price) {
             this.price = price;
         }
 

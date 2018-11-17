@@ -1,18 +1,19 @@
 package com.examples.myapplication.learn.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.examples.myapplication.R;
 import com.examples.myapplication.learn.model.GroupPurchaseJsonData;
 
 import java.util.List;
 
 public class ShowImageGridViewAdapter extends BaseAdapter {
+    public static final String TAG = "roc-wx";
     protected Context context;
     private List<GroupPurchaseJsonData.CommodityInfo> commodityInfoList;
 
@@ -59,10 +60,11 @@ public class ShowImageGridViewAdapter extends BaseAdapter {
         //Glide.with(context).load(commodityInfo.getImgUrl()).placeholder(R.mipmap.ic_launcher).centerCrop().into(viewHolder.imageView);
         //*********************************************************************************************/
 
-        if (commodityInfo.getImg() == null) {
+        if (commodityInfo.getImgDownload() == null) {
             viewHolder.imageView.setImageResource(R.mipmap.ic_launcher);
         } else {
-            viewHolder.imageView.setImageBitmap(commodityInfo.getImg());
+            Log.i(TAG, "commodityInfo.getImg():  " + commodityInfo.getImgDownload()+" url:  "+ commodityInfo.getImg());
+            viewHolder.imageView.setImageBitmap(commodityInfo.getImgDownload());
         }
         return convertView;
     }
