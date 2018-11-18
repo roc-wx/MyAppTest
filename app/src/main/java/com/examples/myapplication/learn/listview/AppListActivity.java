@@ -4,18 +4,22 @@ import android.annotation.SuppressLint;
 import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
 import com.examples.myapplication.R;
-import com.examples.myapplication.learn.adapter.ShowAppListViewAdapter;
+import com.examples.myapplication.learn.util.CommonAdapter;
 import com.examples.myapplication.learn.util.Util;
+import com.examples.myapplication.learn.util.CommonViewHolder;
 
 import java.util.List;
 
 public class AppListActivity extends AppCompatActivity {
+
+    public static final String TAG = "roc-wx";
 
     /**
      * 不可以在这里获取
@@ -49,7 +53,16 @@ public class AppListActivity extends AppCompatActivity {
         });
         listView.addHeaderView(view);
         listView.addFooterView(view);
-        listView.setAdapter(new ShowAppListViewAdapter(this, getResolveInfo()));
+//        listView.setAdapter(new ShowAppWithCommonViewHolderAdapter(this, getResolveInfo()));
+        //使用万能适配器
+        listView.setAdapter(new CommonAdapter<ResolveInfo>(this, getResolveInfo(), R.layout.item_listview_app) {
+            @Override
+            public void convert(CommonViewHolder holder, ResolveInfo resolveInfo) {
+                Log.i(TAG, "convert: ---------------->app___in");
+                holder.setImageViewDrawable(R.id.app_imageView, resolveInfo.activityInfo.loadIcon(getPackageManager()));
+                holder.setText(R.id.app_textView, resolveInfo.activityInfo.loadLabel(getPackageManager()).toString());
+            }
+        });
     }
 
     /**

@@ -20,6 +20,7 @@ import com.examples.myapplication.learn.listview.ChatMeassgeActivity;
 import com.examples.myapplication.learn.listview.JsonDataActivity;
 import com.examples.myapplication.learn.model.ActivityItem;
 import com.examples.myapplication.learn.network.NetworkActivity;
+import com.examples.myapplication.learn.storagedemo.StorageMainActivity;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
         activityItems.add(new ActivityItem("ListView加载本地图片CardView显示效果", CardViewActivity.class));
         activityItems.add(new ActivityItem("GridView加载手机应用", AppGridViewActivity.class));
         activityItems.add(new ActivityItem("GridView加载网络图片", NetWorkImageGridViewActivity.class));
+        activityItems.add(new ActivityItem("存贮案例", StorageMainActivity.class));
         mListView.setAdapter(new MainListAdapter(MainActivity.this, activityItems));
     }
 

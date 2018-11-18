@@ -6,7 +6,10 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.examples.myapplication.R;
 import com.examples.myapplication.learn.adapter.ShowImageGridViewAdapter;
+import com.examples.myapplication.learn.adapter.ShowImageWithCommonAdapter;
 import com.examples.myapplication.learn.model.GroupPurchaseJsonData;
+import com.examples.myapplication.learn.util.CommonAdapter;
+import com.examples.myapplication.learn.util.CommonViewHolder;
 import com.examples.myapplication.learn.util.Util;
 import com.examples.myapplication.learn.view.AppGridView;
 import com.google.gson.Gson;
@@ -25,6 +28,7 @@ public class NetWorkImageGridViewActivity extends AppCompatActivity {
     public static final String TAG = "roc-wx";
     private AppGridView gridView;
     private ShowImageGridViewAdapter showImageGridViewAdapter;
+    private CommonAdapter<GroupPurchaseJsonData.CommodityInfo> commodityInfoCommonAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,23 +57,36 @@ public class NetWorkImageGridViewActivity extends AppCompatActivity {
 
     public class ImageLoadAsyncTask extends AsyncTask<Void, Void, Void> {
 
+        private ShowImageWithCommonAdapter showImageWithCommonAdapter;
+
         @Override
         protected Void doInBackground(Void... voids) {
 
             //jsonObject解析
             //List<GroupPurchaseJsonData.CommodityInfo> commodityInfos = getCommodityInfoListJsonObj(jsonDataString);
             //Gson解析
-             String jsonDataString = Util.getJsonDataString(JSON_URL);
-            List<GroupPurchaseJsonData.CommodityInfo> commodityInfos = getCommodityInfoListGson(jsonDataString);
-            //设置适配器
-            showImageGridViewAdapter = new ShowImageGridViewAdapter(NetWorkImageGridViewActivity.this, commodityInfos);
+            String jsonDataString = Util.getJsonDataString(JSON_URL);
 
+            List<GroupPurchaseJsonData.CommodityInfo> commodityInfos = getCommodityInfoListGson(jsonDataString);
+
+            //设置适配器
+//          showImageGridViewAdapter = new ShowImageGridViewAdapter(NetWorkImageGridViewActivity.this, commodityInfos);
+
+            //使用万能适配器，内部类版
+//            commodityInfoCommonAdapter = new CommonAdapter<GroupPurchaseJsonData.CommodityInfo>(NetWorkImageGridViewActivity.this, commodityInfos, R.layout.item_gridview_app) {
+//                @Override
+//                public void convert(CommonViewHolder holder, GroupPurchaseJsonData.CommodityInfo commodityInfo) {
+//                    holder.setImageViewGlide(R.id.item_gridView_app_imageView, commodityInfo.getImg(), R.mipmap.ic_launcher);
+//                }
+//            };
+            //推荐使用
+            showImageWithCommonAdapter = new ShowImageWithCommonAdapter(NetWorkImageGridViewActivity.this, commodityInfos, R.layout.item_gridview_app);
             //********************使用第三方图片加载Glide框架此处需要省略----start
-            for (int i = 0; i < showImageGridViewAdapter.getCount(); i++) {
-                GroupPurchaseJsonData.CommodityInfo commodityInfo = (GroupPurchaseJsonData.CommodityInfo) showImageGridViewAdapter.getItem(i);
-                commodityInfo.setDowloadImg(Util.getImageFromNetWork(commodityInfo.getImg()));
-                publishProgress();
-            }
+//            for (int i = 0; i < showImageGridViewAdapter.getCount(); i++) {
+//                GroupPurchaseJsonData.CommodityInfo commodityInfo = (GroupPurchaseJsonData.CommodityInfo) showImageGridViewAdapter.getItem(i);
+//                commodityInfo.setDowloadImg(Util.getImageFromNetWork(commodityInfo.getImg()));
+//                publishProgress();
+//            }
             //*******************************************************************end
             return null;
         }
@@ -77,14 +94,16 @@ public class NetWorkImageGridViewActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            gridView.setAdapter(showImageGridViewAdapter);
+//            gridView.setAdapter(showImageGridViewAdapter);////普通类版
+//            gridView.setAdapter(commodityInfoCommonAdapter);////内部类版
+              gridView.setAdapter(showImageWithCommonAdapter);//推荐使用
         }
 
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
             /**********使用第三方图片加载Glide框架此处可以省略*****/
-            showImageGridViewAdapter.notifyDataSetChanged();
+//            showImageGridViewAdapter.notifyDataSetChanged();
             /******************************************************/
         }
 

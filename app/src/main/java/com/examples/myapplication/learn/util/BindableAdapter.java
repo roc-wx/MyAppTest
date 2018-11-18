@@ -1,4 +1,4 @@
-package com.examples.myapplication.learn.adapter;
+package com.examples.myapplication.learn.util;
 
 import android.content.Context;
 import android.view.LayoutInflater;

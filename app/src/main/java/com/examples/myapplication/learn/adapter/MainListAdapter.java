@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.examples.myapplication.R;
 import com.examples.myapplication.learn.model.ActivityItem;
+import com.examples.myapplication.learn.util.BindableAdapter;
 
 import java.util.List;
 

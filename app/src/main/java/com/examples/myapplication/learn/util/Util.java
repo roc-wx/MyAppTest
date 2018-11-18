@@ -10,11 +10,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 
 import com.examples.myapplication.learn.model.AppInfo;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -239,5 +242,94 @@ public class Util {
         }
         Log.d(TAG, "networkInfo:  " + networkInfo);
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    /**
+     * 判断SD是否存在
+     *
+     * @return boolean
+     */
+    public static boolean isExistSDCard() {
+        return Environment.getExternalStorageState().equals(
+                Environment.MEDIA_MOUNTED);
+    }
+
+    /**
+     * 获取sd卡状态
+     *
+     * @return String
+     */
+    public static String getSDCardState() {
+        String state;
+        if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
+            state = "SD卡存在";// 此时SD是可读写的
+            Log.i(TAG, "getSDCardState: SD卡存在");
+        } else if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED_READ_ONLY)) {
+            state = "SD存在，但是为只读状态";
+            Log.i(TAG, "getSDCardState: SD存在，但是为只读状态");
+        } else if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_REMOVED)) {
+            state = "SD不存在";
+            Log.i(TAG, "getSDCardState: SD不存在");
+        } else if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_SHARED)) {
+            state = "SD卡存在，但是正与PC等相连接";
+            Log.i(TAG, "getSDCardState: SD卡存在，但是正与PC等相连接");
+        } else if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_BAD_REMOVAL)) {
+            state = "SD卡在挂载状态下被错误取出";
+            Log.i(TAG, "getSDCardState: SD卡在挂载状态下被错误取出");
+        } else if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_CHECKING)) {
+            state = "正在检查SD卡...";
+            Log.i(TAG, "getSDCardState: 正在检查SD卡...");
+        } else if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_NOFS)) {
+            state = "SD卡存在，但其文件系统不被支持";
+            Log.i(TAG, "getSDCardState: SD卡存在，但其文件系统不被支持");
+        } else if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_UNMOUNTABLE)) {
+            state = "SD卡存在，但是无法被挂载";
+            Log.i(TAG, "getSDCardState: SD卡存在，但是无法被挂载");
+        } else if (Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_UNMOUNTED)) {
+            state = "SD卡存在，但是未被挂载";
+            Log.i(TAG, "getSDCardState: SD卡存在，但是未被挂载");
+        } else {
+            state = "未知状态...";
+            Log.i(TAG, "getSDCardState: 未知状态..");
+        }
+        return state;
+    }
+
+    /**
+     * 获取SD剩余空间
+     *
+     * @return long
+     */
+    public static long getSDFreeSize() {
+        //取得SD卡文件路径
+        File path = Environment.getExternalStorageDirectory();
+        StatFs sf = new StatFs(path.getPath());
+        //获取单个数据块的大小(Byte)
+        long blockSize = sf.getBlockSize();
+        //空闲的数据块的数量
+        long freeBlocks = sf.getAvailableBlocks();
+        //返回SD卡空闲大小
+        //return freeBlocks * blockSize;  //单位Byte
+        //return (freeBlocks * blockSize)/1024;   //单位KB
+        return (freeBlocks * blockSize) / 1024 / 1024; //单位MB
+    }
+
+    /**
+     * 获取SD总容量
+     *
+     * @return long
+     */
+    public static long getSDAllSize() {
+        //取得SD卡文件路径
+        File path = Environment.getExternalStorageDirectory();
+        StatFs sf = new StatFs(path.getPath());
+        //获取单个数据块的大小(Byte)
+        long blockSize = sf.getBlockSize();
+        //获取所有数据块数
+        long allBlocks = sf.getBlockCount();
+        //返回SD卡大小
+        //return allBlocks * blockSize; //单位Byte
+        //return (allBlocks * blockSize)/1024; //单位KB
+        return (allBlocks * blockSize) / 1024 / 1024; //单位MB
     }
 }

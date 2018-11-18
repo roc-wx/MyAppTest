@@ -14,7 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".learn.cardview.CardViewActivity"></activity>
+        <activity android:name=".learn.storagedemo.SharePreferenceActivity"></activity>
+        <activity android:name=".learn.storagedemo.InternalActivity"></activity>
+        <activity android:name=".learn.storagedemo.StorageMainActivity" />
+        <activity android:name=".learn.cardview.CardViewActivity" />
         <activity android:name=".learn.gridview.AppGridViewActivity" />
         <activity android:name=".learn.gridview.NetWorkImageGridViewActivity" />
         <activity android:name=".learn.listview.ChatMeassgeActivity" />
