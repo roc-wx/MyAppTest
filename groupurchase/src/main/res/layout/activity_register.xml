@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity">
+
+    <TextView
+        android:id="@+id/id_register_title"
+        android:layout_width="0dp"
+        android:layout_height="49dp"
+        android:background="@android:color/holo_blue_dark"
+        android:gravity="center_vertical"
+        android:paddingLeft="16dp"
+        android:text="用户注册"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/id_register_username_imgv"
+        android:layout_width="49dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="80dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_register_title"
+        app:srcCompat="@drawable/loginuser" />
+
+    <ImageView
+        android:id="@+id/id_register_password_imgv"
+        android:layout_width="49dp"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/id_register_username_et"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/id_register_username_imgv"
+        app:layout_constraintTop_toBottomOf="@+id/id_register_username_imgv"
+        app:srcCompat="@drawable/password" />
+
+    <EditText
+        android:id="@+id/id_register_username_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="请输入注册用户名/手机/邮箱"
+        android:inputType="textPersonName"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="@+id/id_register_username_imgv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/id_register_username_imgv"
+        app:layout_constraintTop_toTopOf="@+id/id_register_username_imgv"
+        app:layout_constraintVertical_bias="0.481" />
+
+    <EditText
+        android:id="@+id/id_register_password_et"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:ems="10"
+        android:hint="请设置密码"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="@+id/id_register_password_imgv"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/id_register_password_imgv"
+        app:layout_constraintTop_toTopOf="@+id/id_register_password_imgv" />
+
+    <Button
+        android:id="@+id/id_register_button"
+        android:layout_width="395dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:text="注册"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/id_register_password_et" />
+
+</android.support.constraint.ConstraintLayout>
